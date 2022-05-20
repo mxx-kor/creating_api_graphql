@@ -87,6 +87,8 @@ const resolvers = {
     },
     Mutation: {
         postTweet(_, { text, userId }) {
+            const check = users.find(user => user.id === userId);
+            if (!check) return console.log("failed: can not find user data");
             const newTweet = {
                 id: tweets.length + 1,
                 text,
