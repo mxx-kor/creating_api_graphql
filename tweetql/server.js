@@ -1,4 +1,5 @@
 import { ApolloServer, gql } from "apollo-server"
+import fetch from "node-fetch";
 
 let tweets = [
     {
@@ -49,6 +50,11 @@ const typeDefs = gql`
     }
     type Query {
         """
+        Get all Movies
+        """
+        allMovies: [Movie!]!
+        movie(id: String!): Movie
+        """
         Get all Users
         """
         allUsers: [User!]!
@@ -71,10 +77,43 @@ const typeDefs = gql`
         """
         deleteTweet(id: ID!): Boolean!
     }
+    type Movie {
+        id: Int!
+        url: String!
+        imdb_code: String!
+        title: String!
+        title_english: String!
+        title_long: String!
+        slug: String!
+        year: Int!
+        rating: Float!
+        runtime: Float!
+        genres: [String]!
+        summary: String
+        description_full: String!
+        synopsis: String
+        yt_trailer_code: String!
+        language: String!
+        background_image: String!
+        background_image_original: String!
+        small_cover_image: String!
+        medium_cover_image: String!
+        large_cover_image: String!
+      }
 `;
 
 const resolvers = {
     Query: {
+        allMovies() {
+            return fetch("https://yts.mx/api/v2/list_movies.json")
+            .then(r => r.json())
+            .then(json => json.data.movies);
+        },
+        movie(_, { id }) {
+            return fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`)
+            .then(r => r.json())
+            .then(json => json.data.movie);
+        },
         allTweets() {
             return tweets;
         },
