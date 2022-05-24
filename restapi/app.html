@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="http://localhost:8080/api/users/add" method="POST">
+      ID: <input type="text" name="id" /> <br />
+
+      Name: <input type="text" name="name" />
+
+      <input type="submit" value="Submit" />
+    </form>
+    <h4>수정</h4>
+    <form action="http://localhost:8080/api/users/update" method="PUT">
+      ID: <input type="number" name="id" /> <br />
+
+      Name: <input type="text" name="name" />
+
+      <input type="submit" value="Submit" />
+    </form>
+    <script src="app.js"></script>
+  </body>
+</html>
