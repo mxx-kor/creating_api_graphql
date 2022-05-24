@@ -1,6 +1,5 @@
 //express 모듈 불러오기
 const express = require("express");
-const { add } = require("nodemon/lib/rules");
 //express 사용
 const app = express();
 const port = 8080; 
@@ -14,6 +13,13 @@ const users = [
     { id: 3, name: "유저3" }
 ];
 
+const change_users = [
+    { id: 1, name: "Musk" },
+    { id: 2, name: "Mxx" },
+    { id: 3, name: "Kim" }
+]
+
+// get
 app.get("/", (req, res) => {
     res.send("Hello World");
 });
@@ -45,5 +51,27 @@ app.get("/api/users/:user_id", (req, res) => {
 
     res.json({ok: true, user: user})
 })
+
+// post
+app.post("/api/users/add", (req, res) => {
+    const { id, name } =  req.body
+    const user = [...users, {id, name}];
+
+    res.json({ok: true, users: user})
+})
+
+// put
+app.put("/api/users/update", (req, res) => {
+    const { id, name } = req.body
+    const user = users.map(data => {
+        if(data.id == id) data.name = name
+        return {
+            id: data.id,
+            name: data.name
+        }
+    })
+    res.json({ok: true, users: user})
+})
+
 // http listen port 생성 서버 실행
 app.listen(port, () => console.log(`http://localhost:${port}`));
