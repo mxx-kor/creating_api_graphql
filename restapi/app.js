@@ -60,16 +60,36 @@ app.post("/api/users/add", (req, res) => {
     res.json({ok: true, users: user})
 })
 
-// put
+// 현재의 시스템으로는 작동하지 않음, Postman, insomnia를 사용하는 방법이 편해보인다.
+// put 
 app.put("/api/users/update", (req, res) => {
-    const { id, name } = req.body
+    change_users = req.body;
+    res.json({ok: false, users: change_users})
+})
+
+//patch
+ app.patch("/api/user/update/:user_id", (req, res) => {
+    const { user_id } = req.params
+    const { name } = req.body
+
     const user = users.map(data => {
-        if(data.id == id) data.name = name
+
+        if(data.id == user_id) data.name = name
+
         return {
             id: data.id,
             name: data.name
         }
     })
+
+    res.json({ok: true, users: user})
+})
+
+// delete
+app.delete("/api/user/delete", (req, res) => {
+    const user_id = req.query.user_id
+    const user = users.filter(data => data.id != user_id );
+
     res.json({ok: true, users: user})
 })
 
